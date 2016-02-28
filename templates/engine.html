@@ -1,0 +1,65 @@
+<!-- Eric Olson - CS496_400 How-To -->
+<!doctype html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>How-To - Search Engine Refinement</title>
+    <link rel="stylesheet" href="/stylesheet/style.css">
+  </head>
+  <body>
+    <header>Google Custom Search How-To <span>by Eric Olson</span></header>
+    <!-- Left Navigation Pane -->
+    <div class="left_nav">
+      <h4>How-To Navigation:</h4>
+      <ul>
+        <li><a href="index.html">Section 1 - Introduction</a></li>
+        <li><a href="pre-req.html">Section 2 - Pre-Requisites</a></li>
+        <li><a href="key.html">Section 3 - API Enable</a></li>
+        <li><a href="engine.html">Section 4 - Engine Setup</a></li>
+        <li><a href="api.html">Section 5 - API I/O</a></li>
+        <li><a href="exp.html">Section 6 - Example</a></li>
+        <li><a href="more.html">Section 7 - Additional Info</a></li>
+      </ul>
+    </div>
+    <div class="content">
+      <h1>DEFINE THE ENGINE</h1>
+      
+      <h2>Add New Search Rules</h2>
+      <p>One of the very powerful features of the Custom Search API, is that it allows users to define a specific search focus.  This means that developers can imbed search functionality that returns web results from all of the internet, a specific top level domain such as .org or .gov, or more focused to some local domain, or even as specific as a unique folder or file.  This is one of the key strengths of the API that we'll leverage in this tutorial.</p>
+      <p>Say you were developing a Wiki and wanted a search bar but only to return results from within your www.yourwiki.com domain.  The Custom Search API allows for this.  To set this up we must define 'Search Engines' within the Custom Search Engine Command Center @ <a href="http://cse.google.com/cse/all" target="_blank">cse.google.com/cse/all</a></p>
+      <p>Select 'New Search Engine' and define the domains in which you wish to search.  Here I've setup a general webwide search including most top level domains:</p>
+      <p>
+        <img src = "Images/SEAGen.JPG"/>
+      </p>
+      <p>Submit your new engine, and you should receive a confirmation indicating your new search engine has been setup.  From here you have a number of options, including a link to 'Get Code', which allows you to copy and paste a block of pre-written javascript right into your existing project code.  You can also see a live example of your search engine in action, and make changes to the API via the 'Control Panel' button.  We'll click this 'Control Panel' button to review our new Search Engine:
+      </p>
+      <p>
+        <img src = "Images/SEASuc.JPG"/>
+      </p>
+
+      <h2>Secure a Search Engine ID</h2>
+      <p>Within the Edit Search Engine page you have a lot of options to refine your search engine functionality, these include:</p>
+      <ul>
+        <li>Search Engine Name & Description</li>
+        <li>Edit/Add/Delete Search Criteria including Schema.org limitations</li>
+        <li>Enabling/Disabling Ads & Promotions</li>
+        <li>Enabling Image & Speech Searches</li>
+        <li>Language Selections</li>
+        <li>Statistics & Logging</li>
+      </ul>
+      <p>You also have some basic options for changing the look and feel of your predefined JavaScript code.  In our case we'll be taking a very basic option and invoking the API directly via HTTP requests so all we need is the Search Engine ID which can be found under 'Edit search engine' -> 'Setup' -> 'Search engine ID':</p>
+      <p>
+        <img src = "Images/SEAID.JPG"/>
+      </p>
+      <p>This ID will allow you to invoke the general Custom Search API and get results from your specific search engine.  A defined search engine is required in any API call so we'll need at least one of these ID's going forward.  This ID is not tied to your account or billing and can be shared by others without concern.  We now have the tools we need to initiate API calls to the Google Custom Search API.  Next we'll look at the API interface, it's options and abilities, and how to invoke it.</p>  
+      <P>Click Next below to continue...</p>
+
+      <form action="key.html" id="prev">
+        <input type="submit" value="PREVIOUS">
+      </form>
+      <form action="api.html" id="next">
+        <input type="submit" value="NEXT">
+      </form>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,63 @@
+/***  Eric Olson - CS290_400 How-To Style Page ***/
+
+body {font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
+	  margin: 0;}
+
+/*Body Styling*/
+.content {margin-left: 200px;
+	      max-width: 650px;
+	      padding-left: 10px;
+	      padding-right: 10px;
+	      border-left: 10px ridge #067A44;}
+#prev>input, #next>input {background-color: #067A44;
+	                        color: white;
+	                        font-size: 120%;
+	                        border: 2px solid black;
+	                        margin-bottom: 20px;
+	                        margin-right: 10px;
+	                        float: left;}
+#search_input {width: 560px;
+               font-size:100%;}
+#search_form>* {font-size: 90%;}
+input[type="radio"] {padding-right: 0px;
+                     margin-right: 0px;}
+img {border: 2px ridge gray;}
+#next {float: right;}
+h2 {text-decoration: underline;}
+h5 {margin-top: 0;
+	padding-top: 0;
+	margin-left: 45px;
+    margin-right: 100px;
+    font-size: 75%;
+    font-weight: normal;
+    font-style: italic;}
+lh {font-weight: bold;
+    text-decoration: underline;}
+.links {font-size: 75%;
+        padding-left: 40px;}
+
+/* Header Styling */
+header {color: white;
+		background-color: #067A44;
+		text-align: center;
+		font-size: 150%;
+		padding: 5px;
+	    white-space: nowrap;}
+header>span {font-size: 60%;
+	         font-style: italic;}
+  
+/*Left Nav Styling */
+.left_nav {height: 100%;
+		   width: 200px;
+		   font-size: 80%;
+		   position: absolute;
+		   margin-left: 0;
+		   padding-left: 0;
+		   border-left: none;}
+.left_nav>h4 {padding-left: 12px;
+			  padding-bottom: 1px;
+			  margin-bottom: 0px;
+			  text-decoration: underline;}
+.left_nav>ul {list-style-type: none;
+           	  margin: 2px;
+	          padding: 2px;}

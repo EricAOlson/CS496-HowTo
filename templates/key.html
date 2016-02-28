@@ -1,0 +1,59 @@
+<!-- Eric Olson - CS496_400 How-To -->
+<!doctype html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>How-To - Enable the API</title>
+    <link rel="stylesheet" href="/stylesheet/style.css">
+  </head>
+  <body>
+    <header>Google Custom Search How-To <span>by Eric Olson</span></header>
+    <!-- Left Navigation Pane -->
+    <div class="left_nav">
+      <h4>How-To Navigation:</h4>
+      <ul>
+        <li><a href="index.html">Section 1 - Introduction</a></li>
+        <li><a href="pre-req.html">Section 2 - Pre-Requisites</a></li>
+        <li><a href="key.html">Section 3 - API Enable</a></li>
+        <li><a href="engine.html">Section 4 - Engine Setup</a></li>
+        <li><a href="api.html">Section 5 - API I/O</a></li>
+        <li><a href="exp.html">Section 6 - Example</a></li>
+        <li><a href="more.html">Section 7 - Additional Info</a></li>
+      </ul>
+    </div>
+    <div class="content">
+      <h1>ENABLE THE API</h1>
+      
+      <h2>Enable API for Project</h2>
+      <p>In order to utilize the Google Custom Search functionality you need to establish access.  This is done via the Google Cloud dashboard.  With your project selected (if using GAE app) open the 'Product & Services' dropdown from the top left of the screen and select the API Manager link:</p>
+      <p>
+        <img src = "Images/APIManage.JPG"/>
+      </p>
+      <p>In the resulting Overview page search for 'Custom Search API' and select the resulting link:</p>
+      <p>
+        <img src = "Images/APISearch.JPG"/>
+      </p>
+      <p>Next you'll need to click the 'Enable' toggle button to enable the service with your project, and this will bring up a request to establish Credentials which are required to use the API as we intend to with this guide.  Click the 'Go to Credentials' button to proceed:
+      </p>
+      <p>
+        <img src = "Images/APICred.JPG"/>
+      </p>
+
+      <h2>Secure an API Key</h2>
+      <p>At this stage you can setup an API key, Client ID or Service Account with billing/quotas to suit your needs.  You can also follow along with the prompted questions to help guide you to the right type of access request.  For the purposes of this tutorial we'll setup a free (100 queries per day max) web browser API key.  Note the resulting API Key for future use, and you may want to keep it private particularly if you've setup billing and additional access.
+      </p>
+      <p>
+        <img src = "Images/APIKey.JPG"/>
+      </p>
+      <p>We've now successfully enabled our app to use the Google Search API, as well as secured an API key to make HTTP requests to the API from any app.  In the next section we'll continue to setup the API's search criteria and fine tune it's usage.</p>  
+      <p>Click Next below to continue...</p>
+      </p>
+      <form action="pre-req.html" id="prev">
+        <input type="submit" value="PREVIOUS">
+      </form>
+      <form action="engine.html" id="next">
+        <input type="submit" value="NEXT">
+      </form>
+    </div>
+  </body>
+</html>

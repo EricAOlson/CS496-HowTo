@@ -1,0 +1,84 @@
+<!-- Eric Olson - CS496_400 How-To -->
+<!doctype html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>How-To - API Request & Response</title>
+    <link rel="stylesheet" href="/stylesheet/style.css">
+    <link rel="stylesheet" href="/stylesheet/monokai.css">
+    <script src="/javascript/rainbow-custom.min.js"></script>
+  </head>
+  <body>
+    <header>Google Custom Search How-To <span>by Eric Olson</span></header>
+    <!-- Left Navigation Pane -->
+    <div class="left_nav">
+      <h4>How-To Navigation:</h4>
+      <ul>
+        <li><a href="index.html">Section 1 - Introduction</a></li>
+        <li><a href="pre-req.html">Section 2 - Pre-Requisites</a></li>
+        <li><a href="key.html">Section 3 - API Enable</a></li>
+        <li><a href="engine.html">Section 4 - Engine Setup</a></li>
+        <li><a href="api.html">Section 5 - API I/O</a></li>
+        <li><a href="exp.html">Section 6 - Example</a></li>
+        <li><a href="more.html">Section 7 - Additional Info</a></li>
+      </ul>
+    </div>
+    <div class="content">
+      <h1>USING THE API</h1>
+      <p>We've now enabled the API, created an API key and specialized Search Engine(s).  Next we'll look at how the API is invoked and how responses are parsed and utilized.  It's worth taking a moment here to acknowledge that the Custom Search API offers a lot of options and complexity for specializing search requests and tailoring the tool for use with your Google App Engine projects.  This includes things such as passing structured data to filter results by microdata, page date, PageMaps and more, as well as offers a number of library extensions and performance tools.</p>
+      <p>For the purposes of this beginner's guide we'll start with the basics, a REST approach to do a full text search of the Search Engine(s) we've defined in the previous section.  This will allow readers to use this functionality outside of Google App Engine as well.</p>
+      
+      <h2>API Request</h2>
+      <p>The API Request starts with a GET request to the following URL:</p>
+      <pre>
+        <code data-language="html">https://www.googleapis.com/customsearch/v1</code>
+      </pre>
+      <p>To this we append the parameters we wish to define our search, there are 3 required parameters required for all searches, as well as a collection of optional parameters.  I've included the most basic below, for a more complete listing see the API support documentation <a href="https://developers.google.com/custom-search/json-api/v1/using_rest" target="_blank">here</a>.</p>
+      <ul>
+        <lh>REQUIRED:</lh>
+        <li>Query String - 'q=' - The full text string the user wishes to search for.</li>
+        <li>Search Engine - 'cx=' - Search Engine key.  Created in the Engine Setup step.</li>
+        <li>API Key - 'key=' - API Key.  Created in the API Enable step.</li>
+        <br>
+        <lh>OPTIONAL:</lh>
+        <li>Starting Index - 'start=' - The starting sequence # of the responses you wish to return.  Used to cycle through many pages of search results, by sending multiple get's with increasing the start index each time.</li> 
+        <li>Response Format - 'alt=' - Defines response type, 'json' or 'atom'.  JSON by default.
+        <li>Recent Responses - 'dateRestrict=' - Allows you to restrict searches to only recently published pages.  Format is t# where t is either d, w, m or y for Day, Week, Month or Year and the # is the # of t's back you're willing to accept results.  Example (&dateRestrict=w2) would return results within the last 2 weeks.</li>
+        <li>Response Fields - 'fields=' - Limits the number of fields in response for performance.  All fields returned by default.</li>
+        <li>White Space - 'prettyPrint=' - Can be used to remove all white space and indentation to improve response performance.  'true' or 'false'.  True, meaning human readable, by default.</li>
+        <li>Callback Function - 'callback=' - Used to specificy a JavaScript function to invoke upon response for JSON-P requests</li>
+      </ul>
+      <p>With these parameters we can craft our first basic GET API request URL.  We'll use the API key and Search Engine key's identified in previous sections:</p>
+      <pre>
+        <code data-language="javascript">https://www.googleapis.com/customsearch/v1?q={QueryText}&cx={EngineID}&key={APIKey}
+
+https://www.googleapis.com/customsearch/v1?q=Dogs+Cats&cx=003235365699361770251:codtcbpklya&key=AIzaSyAaqv3P9TVkvN1FzGw0nWThCOqzWvB1cdk</code>
+      </pre>
+
+      <h2>API Response</h2>
+      <p>As noted above data from the API can be structured as either JSON or Atom, and limited by use of either the 'fields' or 'prettyPrint' optional query parameters.  For this walkthrough we'll explore the basic full text JSON response, the default response.</p>
+      <p>Let's explore the response we get for the URL we just crafted above.  Click <a href="https://www.googleapis.com/customsearch/v1?q=Dogs+Cats&cx=003235365699361770251:codtcbpklya&key=AIzaSyAaqv3P9TVkvN1FzGw0nWThCOqzWvB1cdk" target="_blank">here</a> to see the full text response in a new tab.  This can be a little overwhelming even if you're completely comfortable with JSON formatted data.  The response is structured hierarchically and full details can be found <a href="https://developers.google.com/custom-search/json-api/v1/reference/cse/list#response" target="_blank">here</a>.  We'll look at some of the key components needed to parse a normal search in this guide.  Key data elements are as follows:</p>
+      <ul>
+        <li>searchInformation.totalResults - Total # of search results identified.</li>
+        <li>queries.request.count - Total # of search results returned on this page.  (Default is 10 per page).</li>
+        <li>queries.nextPage.startIndex - Index of the next page of data if you are pulling multiple pages and need to know which page index to pull next.</li>
+        <li>items[x].title - The page title of the Xth search result.</li>
+        <li>items[x].link - Plaintext URL for identified site.</li>
+        <li>items[x].htmlFormattedUrl - HTTP encoded version of URL for identified site.</li>
+        <li>items[x].displayLink - Host & Domain of identified site.  (i.e. www.yahoo.com or web.engr.oregonstate.edu)</li>
+        <li>items[x].snippet - The date and small sample of site text.</li>
+      </ul>
+      <p>With the information covered above you should be able to make a general search request to the API and parse the response.  The one additional component we'll cover in this basic guide is the idea of paginating as you may wish to produce more then the standard (and max with the free version) 10 responses.</p>  
+      <p>If one wanted to query and return 50 results for example one would need to examine each response for a queries.nextPage element.  If the nextPage element exists there are additional responses available and queries.nextPage.startIndex can be used to identify where to pull the next set of data.  This is done by making a new API request with the same search criteria but adding a query parameter of '&start={num}' where num is the value found in queries.nextPage.startIndex.  If queries.nextPage does not exist there are no more responses available to the given query.</p>
+      <p>Next we'll look at a simple example of this API in action, you'll be able to put in search terms and see how different Search Engines respond and date range limits work.</p>  
+      <P>Click Next below to continue...</p>
+
+      <form action="engine.html" id="prev">
+        <input type="submit" value="PREVIOUS">
+      </form>
+      <form action="exp.html" id="next">
+        <input type="submit" value="NEXT">
+      </form>
+    </div>
+  </body>
+</html>

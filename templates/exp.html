@@ -1,0 +1,116 @@
+<!-- Eric Olson - CS496_400 How-To -->
+<!doctype html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>How-To - Example Search</title>
+    <link rel="stylesheet" href="/stylesheet/style.css">
+    <link rel="stylesheet" href="/stylesheet/monokai.css">
+    <script src="/javascript/rainbow-custom.min.js"></script>
+  </head>
+  <body>
+    <header>Google Custom Search How-To <span>by Eric Olson</span></header>
+    <!-- Left Navigation Pane -->
+    <div class="left_nav">
+      <h4>How-To Navigation:</h4>
+      <ul>
+        <li><a href="index.html">Section 1 - Introduction</a></li>
+        <li><a href="pre-req.html">Section 2 - Pre-Requisites</a></li>
+        <li><a href="key.html">Section 3 - API Enable</a></li>
+        <li><a href="engine.html">Section 4 - Engine Setup</a></li>
+        <li><a href="api.html">Section 5 - API I/O</a></li>
+        <li><a href="exp.html">Section 6 - Example</a></li>
+        <li><a href="more.html">Section 7 - Additional Info</a></li>
+      </ul>
+    </div>
+    <div class="content">
+      <h1>EXAMPLE SEARCH</h1>
+      <h2>Search Criteria</h2>
+      <p>In this section you can enter search criteria and see the generated request URL, as well as some of the parsing that occurs to display the results.  We'll include responses from 3 Search Engines so you can see the difference.  The first will be the general all top level domains search we built in the Engine Setup page, the second will be limited to the .edu domain, and finally the third will limit results to oregonstate.edu only.</p>
+      <div>
+        <form action="" method="post" id="search_form">
+          <input type="text" name="search_text" id="search_input"/>
+          <input type="submit" value="SEARCH">
+          <br>
+          <label for="time">        Limit Results To:</label>
+          <input type="radio" name="time" value="d"/>
+          <label for="time">5 Days</label>
+          <input type="radio" name="time" value="w"/>
+          <label for="time">5 Weeks</label>
+          <input type="radio" name="time" value="m"/>
+          <label for="time">5 Months</label>
+          <input type="radio" name="time" value="y"/>
+          <label for="time">5 Years</label>
+          <input type="radio" name="time" value="n" checked/></input>
+          <label for="time">No Limit</label>
+          <br>
+          <label for="limit">Return Results(1-25, default=5): </label>
+          <input type="number" name="limit" min="0" max="25">
+          
+        </form>
+        {% if url %}
+          <p>Below is the URL generated with your search criteria:</p>
+          <pre>
+            <code data-language="javascript">{{ url }}</code>
+          </pre>
+          <h5>Note that if results requested is greater then 10, multiple requests will need to made with an additional paramater of '&start=xx' where xx is the first index of unreturned results.  This will continue until all requested results have been returned from the API.</h5>
+          <h2>General Search Results</h2>
+          {% if general_results %}
+            <p = class="links">{% for page in general_results %}<strong>{{ page.title }}</strong><br>{{ page.snippet }}<br><a href="{{ page.link }}" target="_blank">{{ page.link }}</a><br><br>{% endfor %}
+          {% elif gen_error %}
+            <p>Error Communicating with API, or API Key Reached daily Limit</p>
+          {% else %}
+            <p>No Results from General Search.</p>
+          {% endif %}
+          <h2>.edu Search Results</h2>
+          {% if edu_results %}
+            <p class="links">{% for page in edu_results %}<strong>{{ page.title }}</strong><br>{{ page.snippet }}<br><a href="{{ page.link }}" target="_blank">{{ page.link }}</a><br><br>{% endfor %}
+          {% elif edu_error %}
+            <p>Error Communicating with API, or API Key Reached daily Limit</p>
+          {% else %}
+            <p>No Results from .edu Search.</p>
+          {% endif %}
+          <h2>OregonState.edu Search Results</h2>
+          {% if osu_results %}
+            <p class="links">{% for page in osu_results %}<strong>{{ page.title }}</strong><br>{{ page.snippet }}<br><a href="{{ page.link }}" target="_blank">{{ page.link }}</a><br><br>{% endfor %}
+          {% elif osu_error %}
+            <p>Error Communicating with API, or API Key Reached daily Limit</p>
+          {% else %}
+            <p>No Results from oregonstate.edu Search.</p>
+          {% endif %}
+          <h2>Response Parsing</h2>
+          <p>A snippet of the python code used to parse the API responses is provided below:</p>
+<pre id="python">
+<code data-language="python">response = urlfetch.fetch(request_url)
+if response.status_code == 200:
+  findings = json.loads(response.content)
+  #ensure we found enough pages to fullfill request
+  if long(findings['searchInformation']['totalResults']) < int(num_resp):
+    num_resp = findings['searchInformation']['totalResults']
+  #identify how many results we can pull from this API response.
+  to_pull = min(int(num_resp) - int(url_index), 10) 
+  #cycle through results, adding responses to 'general_results'
+  for x in range (0, to_pull):
+    result_page = {}
+    result_page['title'] = findings['items'][x]['title']
+    result_page['link'] = findings['items'][x]['link']
+    result_page['encodedlink'] = findings['items'][x]['htmlFormattedUrl']
+    result_page['snippet'] = findings['items'][x]['snippet']
+    general_results.append(result_page)</code>
+</pre>
+        <p>This along with all source code for this How-To can be found on GitHub <a href="https://github.com/EricAOlson/CS496-HowTo" target="_blank">here</a>.  This wraps up the instructional portion of the How-To, next we'll look at a couple additional features you may want to research on your own to expand your knowledge of the Custom Search API.</p>
+        <P>Click Next below to continue...</p>
+        {% else %}
+          <br><br>
+        {% endif %}
+      </div>
+      <br>
+      <form action="api.html" id="prev">
+        <input type="submit" value="PREVIOUS">
+      </form>
+      <form action="more.html" id="next">
+        <input type="submit" value="NEXT">
+      </form>
+    </div>
+  </body>
+</html>
